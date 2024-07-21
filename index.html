@@ -73,29 +73,39 @@
         </div>
     </div>
 
+    <!-- Include Fast.com SDK -->
+    <script src="https://fast.com/app-ed402d.js"></script>
     <script>
         function startTest() {
             const resultsElement = document.getElementById('results');
             resultsElement.innerHTML = '<div class="spinner"></div><p>Testing Download Speed...</p>';
-            
-            // Mock function to simulate speed test
-            setTimeout(() => {
-                const downloadSpeed = Math.random() * 100 + 50; // Simulating download speed
+
+            // Fast.com SDK initialization
+            const fast = new Fast.com({
+                maxNum: 5,  // Maximum number of parallel connections
+                delay: 1000  // Delay between tests
+            });
+
+            fast.start().then(() => {
+                const downloadSpeed = fast.getSpeed();
                 
                 resultsElement.innerHTML = `
                     <div class="result-item"><strong>Download Speed:</strong> ${downloadSpeed.toFixed(2)} Mbps</div>
                     <div class="spinner"></div><p>Testing Upload Speed...</p>
                 `;
 
+                // Simulate upload speed test
                 setTimeout(() => {
-                    const uploadSpeed = Math.random() * 50 + 25; // Simulating upload speed
+                    const uploadSpeed = downloadSpeed / 2; // Simulating upload speed (half of download speed for example)
 
                     resultsElement.innerHTML = `
                         <div class="result-item"><strong>Download Speed:</strong> ${downloadSpeed.toFixed(2)} Mbps</div>
                         <div class="result-item"><strong>Upload Speed:</strong> ${uploadSpeed.toFixed(2)} Mbps</div>
                     `;
-                }, 10000); // 10 seconds for upload speed
-            }, 10000); // 10 seconds for download speed
+                }, 10000); // 10 seconds for upload speed simulation
+            }).catch(error => {
+                resultsElement.innerHTML = `<p>Error: ${error.message}</p>`;
+            });
         }
     </script>
 </body>
