@@ -48,6 +48,20 @@
             margin: 10px 0;
             font-size: 18px;
         }
+        .spinner {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #6e8efb;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
@@ -61,18 +75,27 @@
 
     <script>
         function startTest() {
-            document.getElementById('results').innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+            document.getElementById('results').innerHTML = '<div class="spinner"></div><p>Testing Download Speed...</p>';
 
             // Mock function to simulate speed test
             setTimeout(() => {
-                const localSpeed = Math.random() * 100 + 50; // Simulating local network speed
-                const publicSpeed = Math.random() * 50 + 20; // Simulating public network speed
+                const localDownloadSpeed = Math.random() * 100 + 50; // Simulating local network download speed
+                const publicDownloadSpeed = Math.random() * 50 + 20; // Simulating public network download speed
                 
-                document.getElementById('results').innerHTML = `
-                    <div class="result-item"><strong>Local Network Speed:</strong> ${localSpeed.toFixed(2)} Mbps</div>
-                    <div class="result-item"><strong>Public Network Speed:</strong> ${publicSpeed.toFixed(2)} Mbps</div>
-                `;
-            }, 2000);
+                document.getElementById('results').innerHTML = '<div class="spinner"></div><p>Testing Upload Speed...</p>';
+
+                setTimeout(() => {
+                    const localUploadSpeed = Math.random() * 50 + 25; // Simulating local network upload speed
+                    const publicUploadSpeed = Math.random() * 25 + 10; // Simulating public network upload speed
+
+                    document.getElementById('results').innerHTML = `
+                        <div class="result-item"><strong>Local Download Speed:</strong> ${localDownloadSpeed.toFixed(2)} Mbps</div>
+                        <div class="result-item"><strong>Public Download Speed:</strong> ${publicDownloadSpeed.toFixed(2)} Mbps</div>
+                        <div class="result-item"><strong>Local Upload Speed:</strong> ${localUploadSpeed.toFixed(2)} Mbps</div>
+                        <div class="result-item"><strong>Public Upload Speed:</strong> ${publicUploadSpeed.toFixed(2)} Mbps</div>
+                    `;
+                }, 3000);
+            }, 3000);
         }
     </script>
 </body>
